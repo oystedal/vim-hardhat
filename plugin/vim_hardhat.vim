@@ -1,6 +1,3 @@
-" --------------------------------
-" Add our plugin to the path
-" --------------------------------
 python import sys
 python import vim
 python sys.path.append(vim.eval('expand("<sfile>:h")'))
@@ -8,13 +5,19 @@ python sys.path.append(vim.eval('expand("<sfile>:h")'))
 " --------------------------------
 "  Function(s)
 " --------------------------------
-function! TemplateExample()
+function! Helmet()
 python << endOfPython
 
-from vim_hardhat import vim_hardhat_example
+from vim_hardhat import find_test_case_under_cursor
 
-for n in range(5):
-    print(vim_hardhat_example())
+lines = vim.current.buffer[0:vim.current.window.cursor[0]]
+
+test_case = find_test_case_under_cursor(lines)
+
+if test_case != None:
+    vim.command("Dispatch helmet \"" + test_case + "\"")
+else:
+    print("Could not find a helmet test")
 
 endOfPython
 endfunction
@@ -22,4 +25,4 @@ endfunction
 " --------------------------------
 "  Expose our commands to the user
 " --------------------------------
-command! Example call TemplateExample()
+command! Helmet call Helmet()
