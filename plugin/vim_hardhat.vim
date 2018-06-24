@@ -6,7 +6,7 @@ python sys.path.append(vim.eval('expand("<sfile>:h")'))
 "  Function(s)
 " --------------------------------
 function! RunTest()
-python << endOfPython
+python3 << endOfPython
 
 from vim_hardhat import find_test_case_under_cursor
 
