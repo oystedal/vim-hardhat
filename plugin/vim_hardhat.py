@@ -4,12 +4,10 @@ test_case_re = re.compile(r"^\s*TEST_CASE\s*\((?P<test_name>[^,\)\s]+),?.*\)\s*\
 test_case_with_base_re = re.compile(r"^\s*TEST_CASE_WITH_BASE\s*\([^,]+,\s*(?P<test_name>[^,\)\s]+),?.*\)\s*\{?\s*$")
 
 def find_test_case_name(line):
-    m = test_case_re.match(line)
-    if m:
-        return m.group("test_name")
-    m = test_case_with_base_re.match(line)
-    if m:
-        return m.group("test_name")
+    for r in (test_case_re, test_case_with_base_re):
+        m = r.match(line)
+        if m:
+            return m.group("test_name")
     return None
 
 def find_test_case_under_cursor(lines):
@@ -19,5 +17,4 @@ def find_test_case_under_cursor(lines):
         if test_name:
             return test_name
         lineno -= 1
-
     return None
